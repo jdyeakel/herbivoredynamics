@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2017)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: main_v2.aux
+The style file: RS.bst
+Database file #1: aa_starving3.bib
+Warning--empty journal in prates2022changes
+You've used 63 entries,
+            2202 wiz_defined-function locations,
+            940 strings with 16892 characters,
+and the built_in function-call counts, 28403 in all, are:
+= -- 2779
+> -- 1512
+< -- 28
++ -- 474
+- -- 462
+* -- 2891
+:= -- 4866
+add.period$ -- 65
+call.type$ -- 63
+change.case$ -- 481
+chr.to.int$ -- 63
+cite$ -- 64
+duplicate$ -- 949
+empty$ -- 1909
+format.name$ -- 549
+if$ -- 5615
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 64
+newline$ -- 193
+num.names$ -- 189
+pop$ -- 411
+preamble$ -- 1
+purify$ -- 544
+quote$ -- 0
+skip$ -- 661
+stack$ -- 0
+substring$ -- 2200
+swap$ -- 190
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 376
+warning$ -- 1
+while$ -- 236
+width$ -- 0
+write$ -- 565
+(There was 1 warning)

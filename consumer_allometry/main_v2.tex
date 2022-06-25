@@ -1,0 +1,987 @@
+%% Author_tex.tex
+%% V1.0
+%% 2012/13/12
+%% developed by Techset
+%%
+
+
+\documentclass[]{rsos}%%%%where rsos is the template name
+
+
+%% This file describes the coding for rsproca.cls
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\usepackage{float}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{stmaryrd}
+\usepackage{anyfontsize}
+\usepackage{color}
+\usepackage{subcaption}
+% \usepackage{subfigure}
+
+%%%% *** Do not adjust lengths that control margins, column widths, etc. ***
+
+%%%%%%%%%%% Defining Enunciations  %%%%%%%%%%%
+\newtheorem{theorem}{\bf Theorem}[section]
+\newtheorem{condition}{\bf Condition}[section]
+\newtheorem{corollary}{\bf Corollary}[section]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%%%% Article title to be placed here
+\title{On the dynamics of starvation, mortality, and the ephemeral nature of mammalian megafauna}
+
+\author{%%%% Author details
+Taran Rallings$^{1}$, Christopher P Kempes$^{2}$, Justin D. Yeakel$^{1}$} 
+% and X. Third author$^{3}$}%
+
+%%%%%%%%% Insert author address here
+\address{
+$^{1}$School of Natural Sciences, University of California Merced\\
+$^{2}$Santa Fe Institute}
+% $^{2}$Second author address\\
+% $^{3}$Third author address}
+
+%%%% Subject entries to be placed here %%%%
+\subject{foodwebs, paleontology, ecology}
+%%%% Keyword entries to be placed here %%%%
+\keywords{foodwebs, mammals, foraging}
+
+%%%% Insert corresponding author and its email address}
+\corres{Taran Rallings\\
+\email{trallings@ucmerced.edu}}
+
+%%%% Abstract text to be placed here %%%%%%%%%%%%
+\begin{abstract}
+The vital rates constraining energy flow through consumer-resource interactions largely vary as a function of body size.
+These allometric relationships govern the dynamics of populations, and the energetic constraints induced by different sources of mortality have influence small- to large-bodied species in different ways.
+Here we derive the timescales associated with four alternative sources of mortality for terrestrial mammals: starvation from resource limitation, mortality associated with aging, consumption by specialist to generalist predators, and that introduced by subsidized harvest.
+The incorporation of these allometric relationships into a minimal consumer-resource dynamic system illuminates central constraints that may contribute to the structure of mammalian communities.
+Our framework reveals that while starvation largely impacts smaller-bodied species, the allometry of senescence is expected to be more difficult to observe.
+In contrast, external predation and subsidized harvest primarily influence larger-bodied species.
+The inclusion of predation mortality reveals mass thresholds of mammalian herbivores, where dynamic instabilities limit the feasibility of megaherbivore populations.
+Moreover, we show how these thresholds vary with predator-prey mass ratios, a relationship that is little understood within terrestrial systems.
+Finally, we predict the harvest pressure required to induce mass-specific extinction, and compare these values to estimates from episodes of both paleontological and historical megafaunal exploitation.
+
+
+% Main Takeaway points
+
+% 1) The mass-density relationship represented by Damuth's Law can be approximated with a 2D allometric consumer-resource model that includes starvation dynamics.
+
+% 2) The magnitude of consumer population density is set by the environmental context of resource growth rates and carrying capacity interacting with fixed internal resource use. The nature/slope of the mass-density relationship in Damuth's Law is set by internal processes of reproduction and resource use regardless of environmental context. 
+
+% 3) Increases in actuarial mortality rates can radically alter consumer community structure and lead to the exclusion of small-bodied consumers despite having a stronger overall impact on large bodied consumers.  
+
+% 4) Predation is very cool. 
+
+% 5) The harvest of consumer populations lowers the maximum body mass of species in a consumer community if the rate of harvest does not decrease with consumer mass. 
+
+\end{abstract}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\maketitle
+
+\section{Introduction}
+
+% [P1: consumer-resource systems and allometry... energy compartments...paleo]
+Consumer-resource interactions are the fundamental unit from which complex food webs arise \cite{deangelis1980energy}, where the rates governing transitions of biomass and energy from one species to another are largely determined by their respective body sizes \cite{Yodzis:1992hg}. 
+The allometric relationships between consumer body mass and metabolism constrain energetic assimilation \cite{hou2008}, storage \cite{Lindstedt:2002td}, and growth \cite{West:2001bv}, and therefore govern the dynamics of populations \cite{hennemann1983relationship,West:2002it,Kempes:2012hy,yeakel2018dynamics}. 
+% The scaling of the ratio of fat to non-fat mass in mammals, for example, is central to understanding how these physiological constraints influence population level dynamics. 
+% This ratio of fat to non-fat mass is the relative weight of energy storage to metabolism in an individual. 
+% The ratio scales predictably and positively with body-mass which creates size-structured patterns like starvation tolerance. 
+Because allometrically-constrained models of population dynamics apply generally across large taxonomic clades, they are useful for examining dynamic constraints that may contribute to community structure across macroevolutionary timescales \cite{yeakel2018dynamics,bhat2020scaling}.
+Furthermore, examination of community dynamics at these scales enables the investigation of extinct communities where body size distributions were different than those in contemporary ecosystems \cite{alroy2001multispecies,brook2008synergies,bradshaw2021relative}.
+% The constraints imposed by these physiological allometries on population dynamics allow us to make predictions about populations that we cannot directly observe. 
+% This is notably important for understanding paleo-ecosystems as our knowledge is often limited to body-mass and taxa. 
+% By combining energetic models with allometric parameters we can approximate the energy needs and use of extinct consumers and interrogate sized-structured ecological patterns such as the megafaunal extinction at the terminal Pleistocene. 
+
+
+% [P2: different sources of mortality]
+The dynamics of populations represent an energetic balance between reproduction and mortality \cite{murdoch:2003}.
+While reproduction is unique with predictable allometric scaling relationships \cite{CalderIII:1983jd}, mortality has a variety of forms that do not all scale similarly.
+Mortality originates from internal or external drivers, where the former depends on an organism's internal state to initiate death.
+For example, senescence and starvation involve physiological states that change with respect to time and resource depletion, respectively \cite{yeakel2018dynamics,robert2015actuarial}.
+In contrast, external drivers of mortality consist of an outside force that induces death regardless of an organism's internal state, such as mortality due to natural predation or subsidized anthropogenic harvest.
+Often mortality occurs through correlations between internal and external drivers, where for example, starvation experienced by prey may alter rates of predation \cite{Alonzo:2002ub}.
+% And while we consider these internal and external drivers separately here, they represent a continuum where mortality occurs due to 
+While virtually all primary consumer populations must deal with the effects of resource limitation, aging, and predation, the effects of harvesting are uniquely limited to those species serving as resources for subsidized human populations \cite{Dunne:2016jp}.
+% on terrestrial mammals during the end-Pleistocene and throughout the Holocene are thought to have resulted in considerable community restructuring \cite{Koch:2006vt,Estes:2011eo,Yeakel2014}.
+
+
+% [P3: constraints of size]
+How do different sources of mortality impact the dynamics of mammalian populations?
+Here we construct a general consumer-resource framework to examine mammalian herbivore populations as a function of consumer body size $M_C$, as well as size-dependent vulnerability to different internal and external pressures.
+Because our approach integrates relationships governing specific physiological and assimilational timescales from a process-based energetic perspective \cite{West:2001bv}, it is both low-dimensional \cite[cf.][]{yeakel2018dynamics} and capable of reproducing large-scale empirical patterns of mammalian communities.
+We begin by describing our approach, reproducing key macroecological relationships such as Damuth's law \cite{Damuth1987}, and examining how changes to energetic parameters impact predictions.
+We then derive timescales associated with four sources of mortality experienced by mammalian consumers: \emph{i}) natural mortality, \emph{ii}) starvation mortality, \emph{iii}) natural predation, and \emph{iv}) subsidized anthropogenic harvesting.
+By examining each source of mortality in turn, our framework illuminates central constraints governing mass-specific behaviors, strategies, and risks experienced by mammalian consumers.
+
+Our results reveal four key insights into the constraints structuring mammalian communities.
+First, our allometric consumer-resource system accurately captures both the central tendency and variability of Damuth's law, suggesting that the included vital rates accurately capture mass-specific dynamics.
+Second, our results demonstrate that natural and starvation mortality differentially impact small mammals, confirming expectations, and point to why the allometric effects of senescence are difficult to observe in nature.
+Third, we detail how mortality from specialist or generalist predators induce population instabilities for large-bodied herbivores, and that the body size at which these instabilities occur are dependent on the prevailing predator-prey mass ratios (PPMRs).
+Finally, we evaluate the harvest pressure required to induce mass-specific extinction, and show that our predictions are comparable to estimates of both paleontological and historical exploitation of mammalian megafauna.
+
+
+
+% The patterns of body-size and abundance seen in nature are a product of energetic allometry, reproduction, and multiple sources of mortality. 
+% Most of the energetic allometries experienced by terrestrial mammals have rates decreasing with body-mass. 
+% As a result, smaller mammals have higher reproductive rates as well as higher rates of mortality through starvation, survivorship, and predation. 
+% Larger mammals have lower reproductive rates but experience lower rates mortality through starvation, survivorship, and predation. 
+% Both large and small mammals can then persist in nature under the conditions where their respective rates of mortality and reproduction are balanced despite being of different magnitudes.
+% The significance of the difference in magnitude, large consumers having lower reproductive rates, is that larger mammals are then much more vulnerable to sources of mortality that do not obey this negative scaling pattern. 
+% A size agnostic mortality, applied across a community, will have a more negative impact on large mammals.  
+% A size-structured extinction event, like the loss of megafauna seen at the end of the Pleistocene, must result from a force of mortality that scales with body-mass in a manner unlike the existing sources. 
+
+% [P4: Here we]
+
+
+% What is the background for this paper? 
+% What are the questions?
+
+% (Taran’s stream of consciousness introduction)
+
+% The goal of this paper is to understand how multiple sources of mortality interact in determining densities for consumer species and to build a (mostly) mechanistic consumer-resource model that can be extended to look at paleo food webs. The NSM provided a mechanistic framework for thinking about herbivorous mammals and their resources, tying all the consumer parameters to well documented allometric relationships. The limitation of that model is that it tracks two consumer states: full and starved. A second consumer state creates difficulties for parameterizing mortalities over the two states and leads to computational limitations at the complex food-web level. 
+
+% The NSM is a particularly useful foundation for paleo food-webs because the mechanistic parameterization is entirely allometric. When building models for paleo-ecosystems a persistent limitation is how to accurately decide on parameter values for interactions you cannot observe or ecosystems that no longer exist or species that are completely extinct. We cannot collect this data from the field so we need to build on known relationships between body-mass and energy for accurate parameterization. \\
+
+
+
+
+% \emph{Introduce the NSM}
+
+% The two dimensional consumer-resource model used here is a modification of the three dimensional “nutritional-state model”(NSM) (Yeakel et al 2018). In the NSM the consumer, assumed to be a herbivorous mammal, has two states: a full state and a starved state. The full state is capable of reproduction and experiences no mortality. The starved state is not capable of reproduction and faces mortality. The transition rates between the full and starved states are a function of of resource density. More specifically, the transition rates are a function of the proportional fullness of resource carrying capacity. When the resource is at carrying capacity, transitions between the full and starved states become unidirectional, moving from starved to full. When the resource is extinct, the transition term from starved to full drops out, all consumers transition to the starved state, and then die. \\
+
+% \emph{Explain the two-dimensional model}
+
+% This NSM has been modified by collapsing the full and starved consumer states into a single consumer population. This modification causes the transition rates between the full and starved states to drop out and leave only intrinsic rates of reproduction and mortality. To capture the implicit effects of starvation these reproduction and mortality rates are modified by the resource density as a proportion of it’s carrying capacity. This is structurally similar to the role resource density plays in the NSM serving to modify transition rates between the full and starved states. Here a resource at its carrying capacity means that the consumer can reproduce at it’s maximum rate. As the proportional resource density decreases the effective consumer reproductive rate decreases in the same way. The starvation mortality rate of the consumer is a function of proportional resource density $(1-R/k)$ as well . When the resource is at carrying capacity the starvation mortality term drops out and no mortality by starvation occurs. As proportional resource density is reduced the starvation mortality rate increases. Eventually, at resource extinction $R=0$, the starvation mortality rate reaches its maximum. \\
+
+
+% \emph{Explain how rates are mechanistic}
+
+% The vital rates in our model have time scales based on the general ontogenetic growth model in (West et al 2001). The rates vary as a function of the energetics of building and maintaining somatic tissue in both adults and juveniles. Building the model in this way allows us to mechanistically consider the affects of metabolism and by extension of organismal body-size.
+
+% *** Explain in more detail in methods. ***
+
+
+
+
+
+
+
+
+
+
+\section{Allometric Consumer-Resource Model}
+%Description of the model
+% \noindent {\bf Allometric Consumer-Resource Model} 
+We model a consumer-resource interaction, where the resource $R$ (g/m${}^2$) grows logistically with intrinsic growth rate $\alpha$ to a carrying capacity $k$, and declines due to consumption by an herbivore consumer population $C$ (g/m${}^2$) (Eq. \ref{eq:2d}).
+Consumed resources govern both consumer somatic maintenance and reproduction. 
+The rate of consumption to fuel somatic maintenance is given by $\rho$, and is independent of resource density, as these are invariant requirements of the consumer population \cite{yeakel2018dynamics}.
+In contrast, the rate of consumption to fuel reproduction is proportional to resource density and is given by $\lambda_C(R)/Y_C$, where $\lambda_{\rm C}(R)$ is the consumer growth rate and $Y_{\rm C}$ is the consumer yield coefficient, or the grams of consumer produced per gram of resource consumed (see Supplementary Materials Appendix XX).
+% We assume the consumer growth rate
+% , and the consumer yield coefficient describes the grams of consumer produced per gram of resource consumed (see Methods).
+As in DeLong \& Vasseur \cite{DeLong:2012fjb}, the consumer's growth rate $\lambda_C(R)$ follows Michaelis-Menton (Type II) kinetics as a function of the resource density $R$, where the maximum growth is $\lambda^{\rm max}_{\rm C}$ and the resource half-saturation density is $\hat{k} = k/2$, such that 
+\begin{equation}
+    \lambda_{\rm C}(R) = \lambda^{\rm max}_{\rm C}\left(\frac{R}{\hat{k}+R}\right).
+\end{equation}
+% As the resource diminishes, consumer reproduction is slowed.
+
+
+While the consumer population density grows at rate $\lambda_{\rm C}(R)$, we assume for now that consumer mortality is a function of both natural mortality $\mu$ and starvation, where the rate of starvation $\sigma(1-R/k)$ increases as resources become scarce.
+In this context, $\sigma$ is the maximal rate of starvation that occurs when the environment is devoid of resources.
+The full system describing resource and consumer dynamics is given by
+\begin{align}
+    \frac{{\rm d}}{{\rm dt}}C &= \lambda_{\rm C}(R)C - \left(\mu + \sigma \left(1 - \frac{R}{k} \right)+...\right)C, \nonumber \\ 
+    \frac{{\rm d}}{{\rm dt}}R &= \alpha R \left(1 - \frac{R}{k} \right) - \left(\frac{\lambda_{\rm C}(R)}{Y_{\rm C}} + \rho \right)C,
+    \label{eq:2d}
+\end{align}
+where the `$...$' denotes where additional mortality terms, described later, will be included.
+The dynamic outcomes of this system of equations include two trivial steady states at $(R^*=0, C^*=0)$ and $(R^*=k,C^*=0)$, and one internal steady state where both the consumer and resource population coexist.
+Because the internal steady state cannot be concisely written, we do not report it here.
+See Table \ref{tab:param} for a description of parameters.
+% \begin{align}
+%     C^* &= \alpha k\frac{2\lambda^{\rm max}_{\rm C}\sigma Y_{\rm C}}{(2\lambda^{\rm max}_{\rm C}+\sigma)(2\lambda^{\rm max}_{\rm C} \sigma + (2\lambda^{\rm max}_{\rm C}+\sigma)Y_{\rm C}\rho)} \nonumber \\ 
+%     R^* &= k \frac{\sigma}{2\lambda^{\rm max}_{\rm C} + \sigma},
+%     \label{eq:2dss}
+% \end{align}
+% where both the consumer and resource population coexist.
+
+The rate laws describing resource consumption as well as consumer growth and mortality all vary as a function of consumer body mass $M_C$, where the consumer is assumed to be a mammalian herbivore, and the resource is an unspecified plant functional group with characteristic growth rate $\alpha$, carrying capacity $k$, and energy density $E_d$. %(see methods for derivations of allometric rate laws).
+% While we describe the detailed derivations of allometric rate laws in methods (see methods), it is useful to briefly summarize how consumer rates scale with mass.
+We approach the derivation of vital rates with respect to consumer mass by solving for multiple timescales associated with ontogenetic growth, maintenance, and expenditure.
+The growth of an individual consumer from birth mass $m=m_0$ to its reproductive size $m=0.95M_C$ is given by the solution to the general balance condition $B_0 m^\eta = E_m \dot{m} + B_m m$, where $E_m$ is the energy needed to synthesize a unit of biomass, $B_m$ is the metabolic rate to support an existing unit of biomass, and the metabolic exponent $\eta=3/4$ \cite{West:2001bv}.
+From this balance condition, the time required for an organism starting from mass $m_1$ to reach mass $m_2$ follows
+\begin{equation}
+    \tau(m_1,m_2) = \ln\left(\frac{1 - (m_1/M_C)^{1-\eta}}{1-(m_2/M_C)^{1-\eta}}\right)\frac{M_C^{1-\eta}}{a(1-\eta)}
+\end{equation}
+where $a = B_0/E_m$.
+From this general equation, we calculate the timescale of reproduction for an herbivore consumer of mass $M_C$ as $t_\lambda = \tau(m_0,0.95M_C)$, such that the reproductive rate is $\lambda^{\rm max}_C = \ln(\nu)/t_\lambda$, where $\nu=2$ is the set number of offspring per reproductive cycle \cite{Savage2004,yeakel2018dynamics}.
+The consumer yield coefficient $Y_C = M_C E_d/B_\lambda$ (g consumer per g resource) where $B_\lambda$ is the lifetime energy use required to reach maturity $B_\lambda = \int_0^{t_\lambda} B_0 m(t)^\eta {\rm d}t$ \cite{yeakel2018dynamics}.
+The maintenance rate is given by $\rho = B_0 M_C^\eta/M_C E_d$.
+
+
+To determine the rate of mortality from starvation, we calculate the time required for an organism to metabolize its endogenous energetic stores, estimated from its cumulative fat and muscle mass, where the remaining mass is given by $M_C^{\rm starve} = M_C - (M_C^{\rm fat} + M_C^{\rm musc})$ (see Table xx).
+During starvation, we assume that an organism burns its existing endogenous stores as its sole energy source, where the balance condition is altered to $\dot{m}E^\prime_m = -B_m m$, where $E_m^\prime$ is the amount of energy stored in a unit of biomass (differing from the amount of energy used to synthesize a unit of biomass $E_m$).
+The starvation timescale is then given by
+\begin{equation}
+    t_\sigma = -\frac{M_C^{1-\eta}}{a^\prime}\ln(M_C^{\rm starve}/M_C),
+\end{equation}
+where $a^\prime = B_0/E^\prime_m$, such that the starvation rate is the $\sigma = 1/t_\sigma$.
+% Two additional allometric constants are required to populate Eq. \ref{eq:2d}, including the maintenance rate $\rho$ and the yield coefficient $Y_C$.
+
+To determine the rate of mortality from aging, we note that population cohorts experience two primary sources of natural mortality: the initial cohort mortality rate $q_0$ and the annual rate of increase in mortality as the cohort ages, or the actuarial aging rate, $q_a$ over lifetime $t_\ell$.
+We begin by assuming that the number of survivors over time follows a Gompertz relationship \cite{CalderIII:1983jd,yeakel2018dynamics} from which we can derive the average rate of natural mortality 
+\begin{equation}
+    \mu = \frac{q_0}{q_a t_\ell}\big({\rm exp}(q_a t_\ell)-1\big).
+\end{equation}
+% and where $\mu$ influences consumer population densities as
+% \begin{equation}
+%     \frac{{\rm d}}{{\rm d}t}C = \lambda^{\rm max}_{\rm C}RC- \left(\sigma \left(1 - \frac{R}{k}\right) + \mu \right)C.
+% \end{equation}
+The three parameters $(q_0,q_a,t_\ell)$ each have well-documented allometric relationships for terrestrial mammals, such that natural mortality can be written as a function of consumer mass $\mu(M_C)$ (see Supplementary Materials Appendix XX).
+
+
+% Finally, the maintenance rate is given by $\rho = B_0 M_C^\eta/M_C E_d$.
+We emphasize that while the sizes of physiological biomass compartments are obtained from empirically-measured relationships, the rates determining biomass flux are derived from process-based energetic relationships.
+Together, the allometric rate laws and the dynamic system presented in Eq. \ref{eq:2d} allow us to assess the dynamics of consumer-resource systems for mammalian herbivores spanning the observed range of terrestrial body sizes, from the smallest (the Etruscan shrew at ca. $1$ g) to the largest (the Oligocene paraceratheres and Miocene deinotheres at ca. $1.5-1.74\times10^7$ g) \cite{Smith:2010p3442}.
+We next examine how this minimal framework is well-suited to provide general insight into several key allometric constraints that contribute to the functioning and limitations of terrestrial mammalian communities.
+
+% The starvation rate is then calculated as $\sigma = 1/t_\sigma$.
+
+
+
+% The intrinsic rate of reproduction for the consumer $\lambda_{\rm C}(M_{\rm C})$ is well-known to decline with mass $M_{\rm C}$, with an exponent of -1/4 (REF).
+
+
+% [description of starvation derivation]
+
+
+
+% Both the consumer maintenance rate $\rho(M_{\rm C})$ and yield $Y_{\rm C}(M_{\rm C})$ also reveal a scaling exponent ca. -1/4, whereas the maximum starvation rate $\sigma(M_{\rm C})$ describes the rate at which a consumer metabolizes both its fat and muscle tissue reserve, and is slightly steeper at ca. -1/3 (see methods).
+
+
+\section{Results and Discussion}
+%Comparison to NSM
+\subsection{Recovering Damuth's mass-density relationship}
+% \noindent {\bf Predicting Damuth's Law} 
+Our consumer-resource system is related to the 3-dimensional nutritional state model (NSM) proposed in Yeakel et al. \cite{yeakel2018dynamics}, where an explicit starvation dynamic was incorporated by separating the consumer population density into a `full' and `hungry' state.
+Because the timescales of transitioning between full and hungry states are short relative to those of reproduction, we sacrifice a modest degree of physiological realism to enable analytical expression of steady states with additional sources of mortality.
+After substituting allometric relationships into the rate laws in Eq. \ref{eq:2d}, we observe that the internal steady state of the consumer is very close to observations of mammalian densities in natural systems, thereby approximating Damuth's Law (blue line in Fig. \ref{fig:2ddensities}).
+Compared to the NSM \cite{yeakel2018dynamics}, and similar to DeLong \& Vasseur \cite{DeLong:2010dy}, we observe slightly exaggerated densities for small-bodied consumers, though within the observed range of variation.
+This overestimate is not observed when explicit starvation and recovery are included \cite{yeakel2018dynamics}, suggesting these dynamics play an important role in depressing the populations of smaller-bodied species.
+% , which has the effect of steepening the slope to -0.88 compared to the empirical estimate of ca. -0.77.
+% We suggest that the advantages of avoiding  
+% As observed in Yeakel et al. \cite{yeakel2018dynamics}, a large body mass asymptote appears at $M_C = XX$, which corresponds to the unrealistic size at which 
+The allometric consumer-resource model provides an approximation to the mass-density relationship observed among terrestrial herbivorous mammals \cite{Damuth1987}.
+% The magnitude and slope of this approximation are thus products of the vital rates in Eq. \ref{eq:2d} that are driven by both physiology and the environment.
+% , and it is useful to understand which components drive different aspects of the relationship.
+% To disentangle the influence of the various parameters in the consumer resource model, we evaluate the influence of a percent-change to each.
+% The parameters influencing just the mass-density intercept are those that determine resource availability, including the resource's intrinsic growth rate $\alpha$ and carrying capacity $k$.
+Incorporating observed variations in measured values for $\alpha$ and $k$ reveals strong alignment between model predictions and the observed variability of densities across mammalian clades (Fig. \ref{fig:2ddensities}).
+We examine the effects of variation for other vital rates in Supplementary Materials Appendix XX. 
+% As the resource growth rate or carrying capacity are increased, so is the consumer's mass-density intercept.
+% An increase in the mass-density intercept means that the steady states of all consumer species -- irrespective of body size -- are raised, capturing the effects of higher productivity.
+
+
+
+% \subsection{Starvation mortality (foundational, intrinsic, mass-specific, small-size punishing)}
+
+% In the equilibrium scenario with starvation as the sole source of mortality, reproduction and mortality rates are equal for all consumer body-masses.
+% As these rates are examined at the system equilibria this matching of rates is by definition and not ecologically interesting.
+
+% How does starvation mortalty contribute to Damuth's Law?
+% We assess the influence of each parameter in the model on 1) Damuth intercept and 2) Damuth slope
+% We find:
+% Non-allometric parameters (resource growth, carrying capacity) both influence intercept... Higher yield (grams consumer per gram of resource) increases overall steady states; higher starvation rates decrease overall steady states. This is all pretty intuitive
+% Only allometric parameters influence the slope, as expected
+% Higher growth rates of consumer lead to steeper slopes... this is the productivity paradox, but here we observe that this will more negatively impact larger consumers
+% Increased yield (grams consumer per grams of resource) makes SLOPE shallower + INTERCEPT higher ~ high tides raise all ships
+% increased maintenance rates make slope shallower without impacting intercept... benefiting the larger consumers, which take on higher steady states due to their increased efficiencies... i.e. larger consumers suffer less when maintenance becomes more costly, shallowing the slope
+% increased starvation rates make slope shallower and lowers intercept -- similar to maintenance - while the effect overall is lower densities with higher starvation rates (intercept), larger organisms suffer less due to increased protection from starvation due to higher fat reserves.
+
+
+
+
+
+\subsection{Natural mortality and starvation impact smaller consumers}
+
+
+
+% \subsection{Initial cohort and actuarial mortality disproportionately impact smaller consumers}
+% \subsection{The Many Faces of Death} %This might be just for us ;)
+% \subsubsection{Survivorship mortality (intrinsic, mass-specific, small-size punishing))}
+
+% We consider three additional sources of mortality that are unrelated to starvation due to resource limitation: \emph{i}) initial cohort and actuarial mortality, \emph{ii}) mortality due to natural predation, and \emph{iii}) mortality due to external harvesting.
+% Because these sources of mortality do not feed back to influence resource dynamics except through changes to consumer population densities, we leave the resource dynamic ${\rm d}R/{\rm d}t$ reported in Eq. \ref{eq:2d} unaltered and describe only alterations to the consumer equation.
+%What is the rate of life history mortality?
+
+We first consider two internal sources of mortality: that due to the effects of aging, where mortality scales with an organism's temporal state, and that due to starvation, where mortality scales with an organism's energetic state.
+% Population cohorts experience two primary sources of natural mortality: the initial cohort mortality rate $q_0$ and the annual rate of increase in mortality as the cohort ages, or the actuarial aging rate, $q_a$ over lifetime $t_\ell$.
+% We begin by assuming that the number of survivors over time follows a Gompertz relationship \cite{CalderIII:1983jd,yeakel2018dynamics} from which we can derive the average rate of natural mortality 
+% \begin{equation}
+%     \mu = \frac{q_0}{q_a t_\ell}\left({\rm exp}(q_a t_\ell)-1\right).
+% \end{equation}
+% % and where $\mu$ influences consumer population densities as
+% % \begin{equation}
+% %     \frac{{\rm d}}{{\rm d}t}C = \lambda^{\rm max}_{\rm C}RC- \left(\sigma \left(1 - \frac{R}{k}\right) + \mu \right)C.
+% % \end{equation}
+% The three parameters $(q_0,q_a,t_\ell)$ each have well-documented allometric relationships for terrestrial mammals, such that natural mortality can be written as a function of consumer mass $\mu(M_C)$ (see Supplementary Materials Appendix XX).
+% % such that $\mu$ follows an allometric scaling with exponent ca. -0.56.
+Immediate insight into system constraints can be gained by examining how the rates of consumer mortality compare to reproduction, with the expectation that stability requires mortality rates to be lower than reproductive rates (Fig. \ref{fig:naturalmort}A).
+The starvation rate is a key exception: because organisms can starve and recover many times over the course of their lifetime, the maximal rate of starvation $\sigma(M_C) > \lambda_C(M_C)$, whereas the realized starvation rate is lower.
+% given that $\sigma$ represents the maximal rate of starvation whereas the effective rate is inversely proportional to resource density.)
+% Because organisms can starve and recover many times over the course of their lifetime, the maximal rate of starvation $\sigma(M_C) > \lambda_C(M_C)$ over mass with the consumer steady state remaining stable.
+We observe that natural mortality, including both initial cohort mortality and actuarial mortality, is much lower and projects a steeper slope over $M_C$ than the rates of reproduction and starvation-induced mortality (Fig. \ref{fig:naturalmort}B), with a scaling $\propto M_C^{-0.56}$ \cite[cf.][]{jones2008senescence}.
+While the calculated value of $\mu$ is nearly one order of magnitude below the rate of reproduction $\lambda_C$, a steeper slope implies that increases in $\mu$ will disproportionately harm smaller organisms. 
+% While this relationship is well-known \cite{CalderIII:1983jd}, its predicted effects on consumer steady state have not been explored.
+
+
+To understand the effect of changes to $\mu(M_C)$ on consumer steady states, we examine variations in the principle components of $\mu$: initial cohort mortality $q_0$ and actuarial mortality $q_a$.
+%initial cohort mortality
+The initial cohort mortality represents the mortality experienced by a cohort prior to the accruing effects of age. 
+As $q_0$ is altered, we observe the mortality rate to change in direct proportion, independent of consumer mass.
+For survivorship mortality to approach the rate of reproduction, where perceptible declines in population densities result, the initial cohort mortality must increase by roughly an order of magnitude (shaded region in Fig. \ref{fig:naturalmort}A), and due to the steepness of $\mu$, this effect is felt exclusively by small-bodied organisms (Fig. \ref{fig:naturalmort}B).
+
+%actuarial mortality
+Actuarial mortality represents the cumulative effects of aging, or senescence, across the organism's expected lifetime. 
+We observe that as $q_a$ increases, the magnitude of mortality rises while the slope of $\mu(M_C)$ becomes more shallow (Fig. \ref{fig:naturalmort}C), primarily due to the cumulative nature of senescence magnifying its effects across the longer lifetimes of larger mammals.
+As such, an order of magnitude increase overwhelms the reproduction of mammals up to ca. $1.2\times10^3$ g (Fig. \ref{fig:naturalmort}D), resulting in population instability.
+% destabilization of their respective populations. 
+% Were an ecological context to arrive that dialed up the actuarial rate the community would be defaunated by size class from small to large.
+The extinction risk imposed by senescence has been explored across mammalian taxa, and while some life history characteristics such as the inter-birth interval appear to correlate strongly with these risks, the role of body size is notably ambiguous \cite{robert2015actuarial}.
+% longer intervals between litters may promote declining population viability, while 
+Though our model -- which considers averaged effects across terrestrial mammals -- predicts that the most extreme risks imposed by increased actuarial mortality impacts smaller size-classes, we also show that $\mu$ increasingly resembles $\lambda_C$ with increasing $q_a$ (the top border of the shaded region in Fig. \ref{fig:naturalmort}C).
+This increased similarity implies that relatively small variations in other demographic processes or interactions may have potentially large and destabilizing effects on population size that cannot be predicted from body size, a potential source for the noted ambiguity of allometry and actuarial extinction risk \cite{robert2015actuarial}.
+% We suggest that such effects may be a contributing factor to the noted ambiguity in the role of body size on extinction risks due to senescence across mammalian groups \cite{robert2015actuarial}.
+% Our prediction of this increased similarity between reproductive and natural mortality rates across body size may be a contributing factor for the noted ambiguity in the effects of body size on increased rates of senescence across different mammalian groups \cite{robert2015actuarial}.
+
+
+% [Body mass more complicated, but here we are looking at only terrestrial organisms]
+% [taken across species and not including the details of life history, while our model forecasts population crashes for small-bodies species, the shallowing of $\mu$ with increasing actuarial mortality results in a very similar $\mu$ and $\lambda_C$ across $M$]
+% [This means small variations in other life history variables may have unpredictable effects on population size]
+% [explains some of the ambiguity in the effects of actuarial mortality as a function of body size.]
+
+While the temporal state of an organism is unidirectional and linear, other internal states, such as an organism's energetic state, fluctuate nonlinearly over time.
+In this case, the rate of starvation is low when resources become plentiful ($R \rightarrow k$) and increases to the maximum $\sigma$ as resources become scarce ($R \rightarrow 0$).
+Because organisms metabolize their fat and muscle tissue during starvation, and die from starvation when these energetic stores are fully metabolized, the timescale of starvation varies with the amount of endogenous energetic stores an organism carries.
+Larger organisms carry a larger proportion of body mass as fat \cite{Lindstedt:2002td}, such that they are more protected from the effects of short-term resource limitation \cite{Millar:1990p923}.
+% resulting in a strong allometric relationship for mortality from starvation \cite{yeakel2018dynamics}.
+We observe this effect by modifying the starvation rate and examining how the steady state population size is altered.
+% Variations to starvation-induced mortality have a large effect on consumer steady states, though the effect is not the same across body mass.
+We introduce variation to the rate of starvation as $\sigma(1+\chi_s)$,
+% , where ${}^\prime$ denotes the modified rate and $\chi_s \in (-0.99,1)$ is the proportional change.
+such that the relative change in the steady state $\Delta C^*_s$ introduced by the modified rate is calculated as 
+\begin{equation}
+\Delta C^*_s = \frac{C^*(M_C|\sigma(1+\chi_s)) - C^*(M_C|\sigma)}{C^*(M_C|\sigma)},
+\label{eq:starve}
+\end{equation}
+where higher values indicate a relative gain in steady state densities from the proportional change $\chi_s$, and negative values indicate a relative loss (Fig. \ref{fig:starve}).
+We observe that, while all mammals benefit from reduced starvation rates ($\chi_s<0$), smaller-bodied mammals benefit to a much greater extent, and this effect tapers off with increasing body mass.
+Because fat biomass scales super-linearly with body mass, the populations of larger consumers are more resilient to the effects of starvation, whereas those of smaller consumers are more prone.
+
+
+
+An organism's rate of starvation emerges from two governing forces -- the amount of energy storage and the rate of its use -- and as such can be be manipulated both physiologically and behaviorally.
+For instance, behaviorally supplementing endogenous fat stores with exogenous caches magnifies an individual's energetic stores \cite{yeakel2020caching}, whereas physiologically-mediated responses to starvation risk such as torpor can introduce significant temporal delays to the effects of resource scarcity \cite{schubert2010daily}.
+% While these mechanisms are very different, 
+In both cases the time required to pass from a replenished to a starved state is effectively increased, lowering the rate of starvation.
+% As shown in Fig. \ref{fig:corr}E,F, 
+The predicted benefits of such adaptations to mammalian steady state densities will be realized primarily by smaller mammals (Fig. \ref{fig:starve}, Supplementary Appendix Fig. XX), and it is these size classes where traits such as caching and torpor are most common \cite{geiser1998evolution,smith1984evolution,yeakel2020caching}. 
+
+% Additional sources of mortality may introduce very different effects on consumer populations, and we next explore how mortality beyond starvation informs our understanding of size-dependent extinction risks.
+% We next examine the effects of \emph{i}) initial cohort and actuarial mortality, \emph{ii}) mortality due to natural predation, and \emph{iii}) mortality due to external harvesting.
+
+
+
+
+
+\subsection{Predation mortality and the feasibility of megatrophic interactions}
+% (extrinsic, mass-specific, small-size punishing)}
+
+Predators introduce an external source of mortality on prey populations, fueling their own population growth in whole (trophic specialists) or in part (trophic generalists), by the rate at which prey are consumed.
+% We next explore the effect of predator mortality on an herbivore consumer, taking into account carnivore-specific growth and energetic rates.
+% Without explicitly taking into account the dynamics of a predator population, 
+We account for the effects of an implicit predator density $P$ with body size $M_P$ on the herbivore consumer density $C$ with body size $M_C$.
+% , where we will for now assume that the predator population exists at some steady state $P^*$.
+% Using a form similar to consumer-resource consumption in Eq. \ref{eq:2d}, 
+The mortality rate of the herbivore consumer from an external predator is given by 
+\begin{equation}
+\beta(C,P)=f\frac{\lambda_P(C) P}{C Y_P}, 
+\end{equation}
+where $\lambda_P(C)$ is the growth rate of the predator and $Y_P$ is the predator yield coefficient, describing the grams of predator produced per gram of prey consumed (see Supplementary Materials Appendix XX), and $f$ is the degree of specialization of the predator on the consumer prey ($f=1$ denotes specialization, whereas $f<1$ denotes generalization).
+% $C$, and $P$ is the density of the predator population.
+% \begin{equation}
+% \frac{{\rm d}}{{\rm d}t}C = \lambda^{\rm max}_{\rm C}RC- \left(\sigma \left(1 - \frac{R}{k}\right) + \mu + bP^* \right)C.
+% \end{equation}
+% The capture efficiency $b$ of the predator population describes the per-predator consumption rate of the herbivore prey $C$.
+Assuming a linear functional response for predation mortality, $\lambda_P(C)$ is maximized when the consumer reaches its theoretical maximum population density, which we calculate by converting the resource carrying capacity directly to grams of consumer produced, or $C^{\rm max} = Y_C k$.
+While this is an ultimately unattainable theoretical bound, it allows for a direct calculation of the predator growth rate as a function of $C$, written as
+\begin{equation}
+    \lambda_P(C) = \lambda_P^{\rm max}\frac{C}{C^{\rm max}} = \lambda_P^{\rm max}\frac{C}{Y_C k},
+    \label{eq:predfunction}
+\end{equation}
+where $\lambda_P^{\rm max}$ is the maximum predator growth rate. 
+% assuming mammalian carnivore-specific metabolic relationships (see methods). 
+% We assume that the predator capture efficiency is proportional to predator reproduction $\lambda^{\rm max}_P=\lambda_P/\hat{k}$, where the intrinsic reproductive rate $\lambda_P$ scales with maximal resource growth at one half resource carrying capacity $\hat{k}$.
+% The capture efficiency can then be expressed as
+% \begin{equation}
+%     b = \frac{\lambda^{\rm max}_P}{Y_P Y_C},
+%     % = \frac{\lambda_P}{Y_P(Y_C \hat{k})},
+% \end{equation}
+% where $Y_P$ is the predator yield coefficient describing the grams of predator produced per grams of herbivore prey consumed.
+% Together, $Y_P Y_C$ thus represent the grams of predator produced per gram of resource consumed by its prey, mirroring our parameterization of the resource consumption rate in Eq. \ref{eq:2d}.
+% Both the maximal rates of consumer growth $\lambda^{\rm max}_C$ and predator growth $\lambda^{\rm max}_P$ can be used to accurately predict the upper bounds of herbivore and carnivore population densities, respectively (see Supplementary Appendix XX), lending particular support for our scaling of maximal consumer and predator growth rates. 
+% Finally, because we do not explicitely include the full dynamics of the predator population, we assume predators exist at empirically measured steady state densities, where that $P\equiv P^*\propto M_P^{-0.88}$ \cite{carbone2002common}.  
+The theoretical boundary density for herbivore consumers $C^{\rm max}$ can similarly be used to calculate the boundary density for predators, $P^{\rm max} = Y_P C^{\rm max}$, both of which accurately capture the upper-bounds of herbivore and carnivore mass-density relationships (dashed lines in Fig. \ref{fig:predrate}A).
+Because the effects of the predator are implicit, we assume that the predator population remains at empirically measured steady state densities for mammalian carnivores, where $P\equiv P^*= P_0M_P^{-0.88}$ (Table \ref{tab:param}) \cite{carbone2002common}.  
+
+
+
+% %Predation less than max
+% Though we are not explicitly modeling the predator population, we expect the per-predator capture efficiency to decline as the consumer population is below a critical density.
+
+% [We've thus scaled the intrinsic predator growth rate in the same way as consumer growth... to the maximal growth of resources]
+% [This represents maximum predator growth]
+% [We can check that this scaling makes sense -- predicts upper boundary of predator data]
+
+% [We observe that $\lambda_P^{\rm max}$ is the reproductive rate of the predator population per gram of herbivore prey consumed.]
+% In this case we define this critical point by the half-saturation density of resources $\hat{k}$, such that $\lambda_P^{\rm max} = \lambda_P/\hat{k}$ where $\lambda_P$ is the predator's intrinsic rate of increase, and $Y_C \hat{k}$ represents the grams of consumer produced under the conditions of maximum resource growth.
+% % , such that $b = \lambda_P^{\rm max}/Y_P$. % , such that $\lambda_P^{\rm max} = \lambda_P/\hat{k}_C$
+% % The predator yield coefficient scales proportionally with the individual mass of the predator and the energy density of prey, normalized to the lifetime energetic needs of a predator individual reaching maturity.
+
+The predation mortality rate depends on both the body size of the herbivore consumer and its respective predator. 
+% The predator yield coefficient scales proportionately with predator body size and the energy density of its prey $E_C$, such that $Y_P \propto M_P E_C$.
+% Because we are assuming that the predator population is external to our consumer-resource model, the mortality rate experienced by the herbivore population $bP$ is sensitive to predator size in two ways: \emph{i}) larger predator body sizes will increase the predator yield, lowering the attack efficiency
+Trophic interactions are constrained by body size \cite{Sinclair2003,Brose2005,Hatton:2015fk}, and large prey generally suffer mortality from large predators, though the nature of predator-prey mass ratios (PPMRs) varies across communities \cite{barnes2010global}, organismal body size \cite{Brose2005,Rohr2010,riede2011stepping,Yeakel2014,pires2015pleistocene}, and is not well understood outside of aquatic gape-limited systems \cite{nakazawa2017individual}.
+Because our framework is prey-centric, we require a prediction of the expected predator mass given an herbivore of body size $M_C$, which cannot be directly extrapolated from the expected prey mass for a given predator mass (see Supplementary Appendix XX).
+For larger predators and prey ($>10^5$ g) \cite{Hayward2005,Hayward2006,Hayward2008}, the expected predator mass given a particular herbivore consumer mass follows roughly ${\rm E}(M_P|M_C) = p_0 M_C^{p_1}$, where $p_0 = 1.18\times 10^4$ g and $p_1 = 0.19$ (see Supplementary Appendix XX). %A) Hayward replicated data; B) pred size per herb size
+Accordingly, larger terrestrial herbivores tend to suffer mortality from proportionately smaller predators, an asymmetry that becomes more pronounced with increasing size \cite[cf. ][]{Sinclair2003}.
+We note that smaller terrestrial predator/prey size classes tend to follow different PPMR relationships, where predators tend to be much larger than prey (e.g. rodent- or insect-specialist mesocarnivores) \cite{cruz2022geography,Cruz2022}.
+% , so we limit our current analysis to those occupying size classes $\geq 100$ Kg.
+
+
+% To assess the effects of predation as a function of herbivore consumer mass, we must establish a predator size-scaling, so that a consumer with mass $M_C$ is assumed to be the focal prey of a predator with size $M_P(M_C)$.
+% Using the logit framework introduced by Rohr et al. \cite{Rohr2010} to predict the probability of a trophic interaction between two species as a function of predator to prey body size ratios, the mean predator body size for a prey of mass $M_C$ is given by $M_P = M_C{\rm exp}(\frac{p_1}{2p_2})$, where $p_1$ and $p_2$ are parameters with values fit to the adjacency matrix of a known food web.
+% To capture terrestrial mammalian predator-prey relationships we use fittings derived for the mammalian Serengeti food web \cite{Yeakel2014,pires2015pleistocene}, resulting in $M_P(M_C) \approx (3/4) M_C$, where predator body size is smaller than that of prey. %such that $p_1 = 0.21$ and $p_2 = -0.37$, $
+% We note that this particular parameterization is relevant primarily for larger predator-prey relationships, and we here limit our interpretation to larger size-classes.
+
+% Because these relationships are system-dependent, we assume a predator body size scaling that is representative of the contemporary Serengeti, where on average 
+
+
+% [EXPLAIN BRIEFLY WHAT GOES INTO b AND P]
+% 1) The scaling of predator mass with increasing consumer mass
+% 2) The assumption of an extrinsic predator existing at P^* \propto M_p^{-0.88}
+
+
+% Even without exploring directly the consumer-resource dynamics, we can gain insight into the potential effects of predation mortality by comparing the mortality rate to the consumer's population growth rate $\lambda_C$ as a function of consumer mass $M_C$.
+% While the consumer's reproduction rate scales $\lambda_C \propto M^{-0.25}$, the predation mortality rate is shown to scale $bP^* \propto M^{0.37}$, meaning there is a consumer mass $M_C$ where these rates intersect.
+% For smaller consumer masses, the predation mortality rate is lower than the consumer's reproductive rate, suggesting that these populations can sustain a predator population.
+% However, as consumer mass increases, the predation mortality rate crosses $\lambda_C$, at which point the predation mortality rate becomes larger than the consumer reproductive rate.
+% This suggests that, given the optimal predator:prey mass scaling observed in diverse terrestrial communities (Eq. \ref{eq:opt}), there is a consumer mass threshold $M_C^{\rm crit}$ above which the consumer population can no longer sustain itself in the presence of such predative load.
+
+% We can gain insight into the potential effects of predation mortality by comparing the mortality rate to the consumer's population growth rate $\lambda_C$ as a function of consumer mass $M_C$.
+% As consumer mass increases, the predation mortality rate crosses $\lambda_C$, at which point the predation mortality rate becomes larger than the consumer reproductive rate.
+% This suggests that, given the optimal predator:prey mass scaling observed in diverse terrestrial communities (Eq. \ref{eq:opt}), there is a consumer mass threshold $M_C^{\rm crit}$ above which the consumer population can no longer sustain itself in the presence of such predative load.
+% While the analytical expression of $bP^*$ is not tractable, numerical assessment of this critical consumer mass gives $M_C^{\rm crit} = 1064$ Kg. 
+% Our analysis suggests that a consumer mass above this threshold cannot sustain a predator population with a predator:prey mass ratio observed for lower body masses, and with densities predicted by Damuth's Law.
+% Intriguingly, this corresponds to the body size of herbivores in the Serengeti that effectively escape predation due to their large size.
+% Cape buffalo have a mass $M_C \approx 450$ Kg, where predation accounts for roughly $23\%$ of mortality, whereas giraffes with  mass $M_C \approx 800$ Kg suffer $\approx 5\%$ mortality due to predation.
+% The next largest herbivore in the Serengeti are rhinoceros, which weigh $\approx 1200$ Kg and suffer $0 \%$ mortality due to predation (Sinclair et al.  2003), a threshold remarkably consistent with our estimated $M_C^{\rm crit}$ of 1064 Kg.
+
+%The critical consumer mass MCdagger
+Integrating the large-bodied PPMR relationship into the predation mortality rate reveals the emergence of a dynamic instability at megaherbivore size classes (Fig. \ref{fig:predrate}A), where here and throughout the prefix `mega' is used to signify size classes $>6\times10^5$ g \cite{Hayward2005}.
+An implicit predator population with body size ${\rm E}(M_P|M_C)$ is thus able to withdraw sufficient biomass from an herbivore prey population to sustain itself, without crashing the herbivore population, below a threshold herbivore size of $M_C^\dagger = 2.58\times 10^6$ g (Fig. \ref{fig:predrate}A).
+Above this critical size threshold, the herbivore population has such low densities that it is unable to sustain a specialist predator species large enough to consume it, introducing a strong upper-bound to mammalian carnivore body size driven by a trophic cascade.
+This boundary matches the herbivore maximum size limit observed in contemporary terrestrial systems, at roughly the size of an elephant \cite{Sinclair2003} (Fig. \ref{fig:predrate}B; Supplementary Fig. XX).
+% While the largest herbivores do not suffer significant mortality from predation in contemporary ecosystems, this boundary is critical because it signifies the threshold where excess mortality renders the population highly unstable.
+% The herbivore mass threshold is not incredibly sensitive to variation, where a $\pm 10\%$ change in mortality rates results in a $M_C^\dagger$ ranging from $2.15$ to $3.16\times10^6$ g (Supplementary Fig. XX), well within the elephant body mass range \cite{christiansen2004body}. %CHECK
+
+
+
+While $M_C^\dagger$ marks the threshold herbivore mass above which predation is unsustainable, Sinclair et al. \cite{Sinclair2003} have shown contemporary herbivores to begin to escape predation at ca. $4.22\times10^5$ g (redrawn in Fig. \ref{fig:predrate}B).
+This change-point reflects the limitations of contemporary carnivores, which reach a maximum body size of $1.15$ to $2.60\times10^5$ g \cite{Sinclair2003,Hayward2005}, and have preferences for prey up to $5.50\times10^5$ g \cite{Hayward2005}.
+As such, the sole predators of contemporary giants are not megaherbivore specialists, instead opportunistically subsidizing their preferred prey base. %, while relying on a much smaller prey base.
+% This highlights an important constraint of our framework: that predation suffered by the herbivore is exclusive to a single predator population, and that the single predator population is relying exclusively on a single prey.
+While we have so far assumed a specialized predator-prey interaction, the largest predators in natural systems tend be dietary generalists \cite{Sinclair2003}.
+% In diverse mammalian communities, the largest predators also exhibit the largest prey size range \cite{Sinclair2003}, suggesting that only a fraction of predator biomass is expected to be supported by a single prey population.
+% We can introduce the effects of generalist predation by modifying the fraction of predator growth $f$ supported by the herbivore prey, such that the demands of predator growth are modified as $f\lambda_P(C)$.
+% to a fraction of its current estimate, effectively simulating the influence of a generalist predator population.
+We observe that increasing the implicit dietary generality of the predator (such that $f<1$) increases $M_C^\dagger$ to a larger threshold mass.
+For example, $f=0.37$ means that a predator is supporting a little more than 1/3 of its growth rate by the targeted prey, increasing the herbivore body mass boundary to $M_C^\dagger = 1.75\times10^7$ grams (Fig. \ref{fig:predrate}B; Supplementary Figs. \ref{fig:maxpreyvar},\ref{fig:megamammal}), roughly the body mass attained by the largest terrestrial herbivores, the Oligocene paraceratheres and Miocene deinotheres \cite{Smith:2010p3442,yeakel2018dynamics}.
+That the threshold herbivore mass decreases with increasing predator specialization both suggests that larger predators are dynamically constrained to be dietary generalists \cite{Sinclair2003}, while also pointing to an amplifying feedback mechanism \cite{brook2008synergies} that may operate in diverse communities undergoing megafaunal extinctions.
+As megaherbivore species are lost, the largest predators must respond by increasing their reliance on those remaining.
+Our results reveal that this energetic redirection will reduce the threshold herbivore mass $M_C^\dagger$ to lower size classes, thereby promoting additional extinctions and attendant predator specialization.
+
+
+
+%NOTE: THE THRESHOLD IS ALWAYS AT LARGER SIZES
+
+%RELAXING THE PPMR
+% Contemporary megaherbivores do not represent the largest mammalian size classes ($>3\times10^6$ to $1.74\times10^7$ g), and there are no contemporary megapredators.
+While deinotheres and paraceratheres top the megaherbivore scale, the Eocene artiodactyl \emph{Andrewsarchus} may have been the largest terrestrial mammalian predator of up to $1\times10^6$ g \cite{burness2001dinosaurs}, while the Miocene Hyaenodontid \emph{Megistotherium osteothlastes} ranged between $5$ to $8\times10^5$ g and the early Eocene Oxyaenodont \emph{Sarkastodon mongoliensis} weighed ca. $8\times10^5$ g \cite{sorkin2008biomechanical} . %(Rasmussin 1989, Sorkin 2008)
+% a recent skull of \emph{Smilodon populator} indicates that some individuals may have attained body sizes up to 900 Kg (REF).
+A theoretical maximum mammalian carnivore size of $1.1\times10^6$ g has been proposed based on the intersection of daily energetic uptake requirements against metabolic expenditures \cite{Carbone:2007dz}, closely aligning with the largest known megapredators.
+While our consumer-resource framework provides a range of predicted megaherbivore body mass thresholds depending on the fraction of predator growth it fuels, we next ask under what conditions megatrophic relationships between megaherbivores and megapredators are dynamically feasible.
+
+
+A principle relationship in our framework is the allometric PPMR observed for the largest contemporary herbivores and carnivores, however this PPMR cannot account for past megatrophic relationships (Supplementary Appendix XX).
+% In fact, it is likely that the contemporary PPMR does not account for these interactions, as deinotherium-sized herbivores result in ${\rm E}(M_P|M_C)=2.99\times10^5$ g, whereas the maximum carnivore body mass is $2-3\times$ larger.
+While it is unknown whether these super-sized carnivores were specialists on deinothere size-classes (REFS), our framework allows us to investigate whether and to what extent changes to the contemporary PPMR enable megatrophic interactions, where we allow the PPMR to vary as 
+\begin{equation}
+{\rm E}(M_P|M_C) = p_0(1+\chi_{\rm int}) M_C^{p_1(1+\chi_{\rm slope})},
+\label{eq:ppmr}
+\end{equation}
+where the proportional changes in the PPMR intercept and slope are given by $\chi_{\rm int}$ and $\chi_{\rm slope} \in (-0.99,2)$.
+We find that the threshold herbivore body size $M_C^\dagger$ increases, while $M_P^\dagger$ decreases, with lower PPMR intercepts and shallower slopes (Fig. \ref{fig:predrate}C,D). %, whereas the threshold carnivore body size $M_P^\dagger$ decreases with the same 
+Lower PPMR intercepts and shallower slopes mean that predator sizes are generally smaller, and increase more slowly, with larger herbivore body sizes.
+So given a particular herbivore size, proportionately smaller predators elevate the threshold herbivore mass, while proportionately larger predators drive down the threshold herbivore mass.
+% whereas smaller-bodied predators serve to elevate $M_C^\dagger$.
+Importantly, only a small range of values for PPMR intercepts and slopes permit the existence of megatrophic interactions where megaherbivores ($1.72-2.01\times10^6$ g) serve as prey for megapredators ($6.11\times10^5-1.19\times10^6$ g; white band in Fig. \ref{fig:predrate}C,D).
+While significantly larger PPMR intercepts ($\chi_{\rm int}\gg 0$) are unlikely to be realized in natural systems, the megainteraction range does include very low intercepts with very high slopes, such that PPMRs are low at smaller masses, and much higher at large masses.
+Such an hypothesized PPMR does not stray far from contemporary large-mammal interactions  (Supplementary Fig. \ref{fig:ppmr}) and may be a good candidate for megatrophic interactions. 
+
+Feasible megatrophic interactions increase substantially if a smaller percentage of the predator growth rate is fueled by the target herbivore population ($f<1$).
+Setting $f=0.37$ -- which we observed increases $M_C^\dagger$ to deinothere/indricothere size classes -- and allowing both $\chi_{\rm int}$ and $\chi_{\rm slope}$ to vary, results in megatrophic interactions spanning the largest megaherbivore ($1.27-1.48\times10^7$ g) and megapredator ($6.15\times10^5-1.20\times10^6$ g) sizes observed in the fossil record (Supplementary Fig. \ref{fig:megamammalgen}).
+% These results indicate that existence of megapredators in terrestrial systems requires generalist dietary behaviors, and only steeper PPMRs than those observed in contemporary systems enable interactions of the largest mammalian size classes.
+% However, as ever-increasing predator body sizes may expand the size range of available herbivore prey, the increased demands of these predator populations lower the maximum sustainable herbivore body size.
+% The sensitivity of this instability suggests that 
+Our framework thus highlights dynamic constraints existing between predators and prey that may serve to structure terrestrial mammalian communities over evolutionary time, in particular revealing the tenuous positions of mega-sized herbivores and predators.
+As carnivorous clades acquire body sizes enabling megaherbivore predation over evolutionary time, their super-sized appetites may result in unsustainable megaherbivore densities where the risk of extinction becomes overwhelming -- an evolutionary trap marking the final tooth in the hypercarnivore ratchet \cite[cf.][]{VanValkenburgh:2004p2451}.
+% While megapredators were unlikely to have been megaherbivore generalists, early human populations are known to have relied extensively on large-bodied species, and we next examine how our framework can be used to understand the effects of subsidized harvesting, potentially offering insight into the Pleistocene megafaunal extinctions.
+
+% Carbone et al. \cite{Carbone:2007dz} have previously shown that a maximum carnivore size of 1100 Kg can be predicted from the intersection of daily energetic uptake requirements against metabolic expenditures.
+% We can assess directly whether our estimate of $M_C^\dagger$ relates to an observed carnivore size threshold by calculating the expected predator size from our fitted relationship for $M_P(M_C^\dagger)$, which gives $M_P^\dagger = 1270$ Kg.
+% As our predicted allometric predator mortal
+
+
+
+
+
+% At these sizes, megaherbivores ($M_C > 1000$ Kg) only rarely suffer predation by the largest mammalian carnivores \cite{john2009lion,le2018megaherbivores}.
+% The instability predicted by our framework at $M_C = M_C^\dagger$ suggests that as large-bodied carnivore clades increase in size over evolutionary time, they will tend to push their prey resources towards extinction -- an evolutionary trap marking the last tooth in the mammalian hypercarnivore ratchet \cite[cf.][]{VanValkenburgh:2004p2451}.
+
+
+
+
+% Carbone et al. \cite{Carbone:2007dz} have previously shown that a maximum carnivore size of 1100 Kg can be predicted from the intersection of daily energetic uptake requirements against metabolic expenditures.
+% We can assess directly whether our estimate of $M_C^\dagger$ relates to an observed carnivore size threshold by calculating the expected predator size from our fitted relationship for $M_P(M_C^\dagger)$, which gives $M_P^\dagger = 1270$ Kg.
+% % As our predicted allometric predator mortality rate crosses the consumer's reproductive rate at $M_C^{\rm crit}$, the populations of herbivore speciers larger than $1064$ Kg are expected to collapse, an effect that would be expected to cascade into the predator population.
+% % Because we assume that predator mass is dependent on prey mass, we can estimate the predator mass that would destabilize its prey population, for which we obtain $M_P^{\rm crit} = 802$ Kg.
+% Our estimate of $M_P^\dagger$ corresponds closely to the largest observed terrestrial apex carnivores: the Hyaenodontid \emph{Megistotherium osteothlastes} ranged between 500-800 Kg \cite{sorkin2008biomechanical}, while the Oxyaenodont \emph{Sarkastodon mongoliensis} weighted $\approx 800$ Kg. %(Rasmussin 1989, Sorkin 2008)
+% The artiodactyl \emph{Andrewsarchus} may have been the largest terrestrial predator at $800-1000$ Kg (REF), while a recent skull of \emph{Smilodon populator} indicates that some individuals may have attained body sizes up to 900 Kg (REF).
+% These results provide an added perspective to Carbone et al.'s \cite{Carbone:2007dz} energetic threshold: that carnivore body size may additionally be limited by instabilities introduced to the populations larger body-sized herbivores.
+% % [trophic allometry convergence by ]
+% That multiple allometric constraints may converge around observed size thresholds has been noted before \cite{yeakel2018dynamics}, though is not well understood and may be a fruitful avenue for future efforts.
+
+%pred/prey mass scaling
+% We have assumed that the optimal mass ratio between predators and prey follows the scaling observed in the Serengeti food web, where $M_P/M_C \approx 3/4$ \cite{Yeakel2014,pires2015pleistocene}.
+% While the plasticity of this relationship is difficult to examine for larger terrestrial carnivores given there are so few systems with diverse large-bodied carnivore guilds, recent efforts has revealed high plasticity among smaller carnivore taxa, as well as strong phylogenetic effects \cite{cruz2022geography}.
+% For example, in marine systems predators are largely gape-limited (REF) such that the optimal mass ratio is roughly $XX$ where predators tend to be much larger than their prey, and this distinction from terrestrial systems points to substantial ecological variability across systems.
+% By altering the assumed $M_P/M_C$ within our framework, we can examine directly how such trophic allometry impacts predicted herbivore population thresholds $M_C^\dagger$.
+
+
+
+
+
+
+
+
+
+
+% [Because our framework is constructed based on underlying energetic relationships, we can now ask: how do variations in less constrained model parameters alter these estimated mass thresholds?]
+%We observe that the predicted thresholds are very sensitive to changes in the energy density of the consumer population.
+%The above conditions assume reported energy densities of protein and fat, and that the consumable portion of the prey has a protein:fat ratio of $\approx 32:68$.
+%If, however, the J/g of fat within consumable tissue is increased, so does its energy density, which would be the case for prey such as marine mammals.
+%For example, if the J/g of fat within consumable tissue is increased by 5\%, we observe the threshold predator body size to increase to 795 Kg; if the J/g of fat is increased by 10\%, threshold predator mass increases to 1000 Kg.
+%While we do not examine specifically the changed conditions of prey within maritime environments, the largest terrestrial carnivore \emph{Ursus maritimus} maintains a diet composed of the energy-rich marine mammals.
+%The directionality of our model predictions thus affirms expectations of larger maximimum carnivore mass conditioned on a diet composed of prey with tissues that have greater energy density.
+% [Pleistocene implications]
+
+
+
+
+\subsubsection{Harvesting to extinction} 
+% (extrinsic, mass-non-specific, large-size punishing)}
+
+We last consider the effects of anthropogenic harvest-induced mortality on consumer populations.
+While the predation rate is naturally limited by the energetic needs of the predator, we consider harvest to be a comparatively unconstrained source of mortality.
+This may be the case if the human population(s) engaged in harvesting are subsidized by alternative resources \cite{Brook2005}.
+Harvest pressure has potentially varying relationships with consumer (prey) body mass, a complex product of environment, climate, culture, and technology \cite{churchill1993weapon}, where harvest rate $h = \xi M_C^w$.
+For example, hunting traditions specializing on mass-collecting, by way of trapping or netting \cite{churchill1993weapon,ugan2005does} are expected to exhibit harvest allometries biased towards smaller species (negative size-scaling, $w<0$), whereas a purely opportunistic strategy may be expected to have very little allometric dependence (zero size-scaling, $w=0$).
+Inclusion of negative size-scaling harvest reveals that smaller-sized prey can withstand significant harvesting pressure before their populations are negatively impacted.
+While smaller mammals do not appear to offer a significant return on investment, the mass-collecting of invertebrates such as grasshoppers, and fish can offer significant returns \cite{ugan2005does}.
+In contrast, the inclusion of zero size-scaling harvest reveals that it is the larger-bodied species that are negatively impacted, but only where $h(M_C) > \lambda_C(M_C)$ (Supplementary Fig. \ref{fig:harvestscaling}).
+
+
+Technology provides access to otherwise unobtainable size-classes of potential prey, and is expected to strongly influence the allometry of harvesting effort.
+% In contrast to these hypothetical harvest relationships, 
+For example, the innovation of advanced projectiles is thought to have enabled harvest of terrestrial megafauna \cite{churchill1993weapon,prates2022changes}, while archeological evidence points to many Pleistocene human populations as potential megafaunal specialists (positive size-scaling, $\ell > 0$) \cite{Smith:2018gm}.
+% , switching to sub-mega size classes with the decline of megafaunal diversity (Buchanon et al. 2011).
+More recently, historical fisheries have been subject to positive size-scaling harvest efforts \cite{Sethi2010}, and contemporary size classes may be much reduced due to the accumulation of these pressures over time (Jennings 2004) \cite{jennings2004fish}.
+While the allometry of harvest effort is largely unknown and highly plastic, our framework allows us to examine how much effort is required to induce population collapse as a function of mammalian body size. % -- regardless of harvest scaling --
+
+We next calculate the harvest rate required to induce extinction, $h^\dagger$, as a function of body size $M_C$, and find a scaling relationship proportional to the mass-density relationship where $h^\dagger \propto M_C^{-1/4}$.
+% We denote the harvest rate sufficient 
+This is a natural result, as the effort required to suppress a population is expected to be proportional to the consumer's abundance. 
+As a proportion of the other sources of consumer mortality that we have considered (excluding predation; $f=0$), extinction-level harvesting is lower for smaller consumers, saturating at close to unity for larger consumers, reflecting the elevated role of starvation mortality among small-sized organisms.
+With predation mortality included from both generalist ($f = 0.37$) and specialist ($f=1$) predators, extinction-level harvesting accounts for an increasingly smaller proportion of mortality for larger organisms (orange and red lines, Fig. \ref{fig:harvest}A).
+This highlights the delicate nature of the megafaunal niche, where smaller changes in mortality rates can induce population collapse.
+
+To examine how our estimate of extinction-level harvesting rates $h^\dagger$ compare to those estimated for human hunting of paleontological and historical mammalian populations, we converted $h^\dagger$ to harvest pressure $\psi^\dagger$, or the number of individuals harvested per year to reduce the population to a fraction of its steady state $\epsilon C^*$ where we set $\epsilon = 0.01$.
+We calculate $\psi^\dagger$ for an arbitrary area (see Supplementary Appendix XX), which we standardize as the area of California ($A_{\rm CA} = 4.24\times10^5~{\rm km}^2$), such that
+\begin{equation}
+    \psi^\dagger \propto -h^\dagger\frac{C^*(1-\epsilon)}{M_C \log(\epsilon)}.
+\end{equation}
+We observe that -- though the annual harvesting pressure is unrealistically high for smaller organisms -- it is ca. $1.2\times10^4~{\rm inds/yr/}A_{\rm CA}$ for organisms $>10^6$ g in the absence of predation mortality ($f=0$).
+With the increasing pressures of generalist and specialist predation, the harvest pressure required to induce extinction is much less for these larger consumers (Fig. \ref{fig:harvest}B).
+% , and $>1.8\times10^6$ g in the presence of predation mortality (Fig. \ref{fig:harvest}B).
+
+% Our estimate of harvest pressure, while assuming a constant depletion from the population steady state such that it is conservative on greater-than-generational timescales (see Supplementary Materials XX), also permits direct comparison to other published estimates.
+Our predictions of extinction-inducing harvest pressure compare well with paleontological and historical estimates of harvesting pressure on mammalian megafauna. 
+For example, Fordham et al.'s \cite{fordham2022process} estimate of the harvest pressure required to collapse mammoth (\emph{Mammuthus primigenius}) populations \cite[using a formulation similar to that of Alroy;][]{alroy2001multispecies} revealed a range of values consistent with our expectation for similar size-classes (est. harvest pressure = $5.37\times10^4~{\rm inds/yr/}A_{\rm CA}$), as did estimates of extinction-inducing harvest of the Australian \emph{Diprotodon} \cite[est. harvest pressure = ca. 763 ${\rm inds/yr/}A_{\rm CA}$;][]{bradshaw2021relative}.
+Within the historical record, elephant (\emph{Loxodonta}) populations experienced comparatively lower harvest pressure through 1850 \cite[ca. $466~{\rm inds/yr/}A_{\rm CA}$, derived from the volume of ivory exports;][]{milner1993exploitation}.
+% , scaled to African elephant habitat area ($3.22\times 10^{6}~{\rm km}^2$; Thouless, 2016).
+While fluctuating over the next century, harvest pressure elevated to a maximum of ca. $13.3\times 10^5~{\rm inds/yr/}A_{\rm CA}$ just prior to 1987 (Fig. \ref{fig:harvest}B).
+This level of harvest was not sustained, as ivory export volume plummeted following the implementation of trade restrictions in 1989 \cite{milner1993exploitation}.
+% While this level of harvest is greater than our estimate to induce population collapse (Fig. \ref{fig:harvest}B), it was not sustained, as ivory export volume plummeted following the implementation of trade restrictions in 1989 (Milner-Gulland 1993).
+Both Fordham et al.'s \cite{fordham2022process} estimate for Pleistocene mammoths and the short-lived harvest maximum for African elephants in 1987 \cite{milner1993exploitation} achieved pressures greater than $\psi^\dagger$ under the conservative assumption of zero natural predation.
+While estimates for $\emph{Diprotodon}$ harvest are considerably lower \cite{bradshaw2021relative}, it is important to note that our measure of harvest pressure is parameterized for eutherian rather than marsupial mammals.
+Nevertheless, the estimated \emph{Diprotodon} $\psi^\dagger$ is well within range of extinction-inducing harvest rates if natural predation pressures are also included, and there is evidence to suggest that \emph{Diprotodon} likely served as prey for marsupial lions \cite{horton1981cuts,wroe1999estimating}, and both giant crocodylians (\emph{Pallimnarchus}) and varanid lizards (\emph{Megalania}) \cite{webb2009late}.
+% (Runnegar 1981; Horton 1981; Wroe et al. 1999) 
+% though these estimates must be viewed as lower-bounds given they are derived from ivory exports extracted from an unknown area, though standardized Africa, much larger than the area being harvested.
+
+
+
+
+\section{Conclusion}
+We have shown that the inclusion of mass-specific energetic transfer between resources and consumers, combined with the unique timescales governing consumer mortality, both predict Damuth's Law \cite{Damuth1987} and provide insight into dynamic thresholds constraining populations.
+While natural and starvation mortality primarily impact small-bodied species, trophic mortality primarily impacts large-bodied species with longer generational timescales. 
+Moreover, while mass-specific predation gives rise to dynamic thresholds on herbivore populations, these effects are sensitive to both predator generality as well as the associated predator-prey mass ratio, which isn't well understood for terrestrial megafauna \cite{nakazawa2017individual}.
+% We suggest that our minimal energetic framework both captures the largest-scale constraints shaping mammalian communities, while simultaneously underscoring the fragility mammalian megafauna.
+While assessment of particular communities and/or species requires more detailed approaches -- integrating, for example, life history dynamics as in Bradshaw et al.  \cite{bradshaw2021relative} -- we suggest that a general and lower-dimensional framework may be useful for extracting first-order energetic constraints that both shape and potentially limit the general nature of mammalian communities.
+
+
+That extinction risk appears to increase with body size \cite{Cardillo:2005et} is integral to our understanding of the Pleistocene extinctions \cite{alroy2001multispecies,johnson2002determinants,brook2008synergies,Smith:2018gm,bradshaw2021relative} and anthropogenic effects throughout the Holocene \cite{Estes:2011eo}.
+% That megafauna are ephemeral and more susceptible to external sources of mortality is a cornerstone of Quaternary paleontology \cite{Brook2005}.
+Assessing which energetic walls close in and why, as body size increases, is fundamental for reconciling the nature of extinction \cite{brook2008synergies}, particularly when there is size-selectivity \cite{Smith:2018gm}.
+% Because energetic compartment models broadly apply across clades, they are particularly useful for exploring the constraints of paleocommunities.
+That we observe dynamically-feasible megatrophic interactions to occupy a narrow band of PPMR relationships points to a broader range of interaction structures than are realized in contemporary communities.
+As the threshold consumer mass decreases with predator specialization, how megafaunal trophic structure changes during extinction cascades may be central for understanding the dynamics of community disassembly \cite{Yeakel2014}.
+And while these dynamics may arise naturally from the energetic limitations of mammalian interactions, it may be that the added pressures of subsidized harvest, particularly on megafauna, inevitably lead to collapse.
+
+% That predator dietary strategies may promote amplifying feedback cascades means this structure, and how it changes during perturbations, may be important (Egypt)
+
+% How these non-anthropogenic sources of dynamic instability interplay with the pressures of harvesting may be key to understanding Pleistocene extinctions
+
+% outside of whic amplifying feedback extinction cascades within communities.
+
+
+% % Yet dinosaurian megafauna do not appear as ephemeral, occupying long successful xx in the fossil record...
+
+
+% ne wonders if the energetic dynamics of 
+
+% Dino
+
+
+% The effects of predation stand in contrast to those of subsidized harvest, where we compare the mass-specific harvest pressure needed to induce extinction against estimates from the end-Pleistocene as well as the historical ivory trade.
+
+
+
+% Both starvation and cohort mortality primarily impact small-bodied species, whereas the effects of increased senescence to scale similarly with consumer reproduction, potentially explaining the apparent lack of relationship between senescence and body size in natural systems.
+% On the other hand, we find that trophic mortality primarily impacts large-bodied species due to smaller population densities and longer generation timescales.
+% While this general relationship has been investigated in prior efforts (REF), we show that predation mortality induces dynamic thresholds on consumer body size, where both predator specialization and relative body size determines whether mega size classes are feasible.
+% The effects of predation stand in contrast to those of subsidized harvest, where we compare the mass-specific harvest pressure needed to induce extinction against estimates from the end-Pleistocene as well as the historical ivory trade.
+
+% Missing megafauna - herbivores and predators
+% Predators are constrained by their food... and large sizes are delicately balanced
+% House of cards plays into the ephemeral nature of these species
+% In particular their sensitivity to a subsidized harvesting pressure
+% But the benefits to largess ensure that the void is quickly filled
+% Our framework is minimal - few assumptions other than energetics
+% May offer insight into the primary constraints directing the composition of communities both past, present, future.
+
+
+
+
+% We have shown that
+% Timescales + LV fits Damuth
+% Considering sources of mortality reveals differential impacts on small vs. large-bodied populations
+% Observe dynamic thresholding emerging with the inclusion of predation mortality
+% Exploration of potential changes into known predator-prey scaling reveals stability thresholds for megatrophic interactions
+% Extinction inducing harvest rates are in line with expectations from past extinction events, as well as recent harvesting pressure on existing megafauna.
+
+% Where have all the megafauna gone? 
+% Allometric relationships principled on energetic dynamics scaled to population-level processes provides tools to investigate the gaps in our contemporary mammalian communities.
+
+
+% In the scenario where mortality includes a harvesting rate, the resulting patter is quite different. Size-blind harvesting places the same magnitude of mortality pressure on all consumers. The nature of the allometric scaling of reproduction means that large bodied organisms reproduce much more slowly than small bodied organisms. Sources of mortality like starvation and survivorship follow this same pattern, placing the strongest mortality pressures on small bodied organisms. 
+
+% As harvest is an external mortality source placed on a population, here using harvest by humans as the guiding example, the manner in which it scales with consumer body-mass can vary. Here we examine three scenarios of harvest rate and their effects: non-scaling, positive scaling, and negative scaling. \\
+
+% \vspace{0.5cm}
+
+% \includegraphics[width=0.9\textwidth]{harvest_scaling_plot.png}\\
+
+% \vspace{0.5cm}
+
+% Non-scaling - A harvesting rate being blind to consumer mass breaks the pattern of decreasing rate with mass and can drive large bodied organisms to extinction as the harvesting rate, combined with starvation and other sources of mortality, overwhelm the reproductive capacity of the species. The effect on the Damuth line is to lower the maximum body-mass of species facing the harvest pressure.\\
+
+% \vspace{0.5cm}
+
+% \includegraphics[width=0.9\textwidth]{harvest_damuth_plot.png}\\
+
+% \vspace{0.5cm}
+
+% In the figure above we can see that large-bodied consumers are excluded from the system, harvesting pressure overwhelms the reproductive capacity. This result is qualitatively similar for the positive-scaling harvest scenario as well as the non-scaling scenario.
+
+
+% Positive scaling – A harvesting rate with positive scaling maintains the basic pattern of a non-scaling harvest rate. Large bodied consumers face a higher mortality relative to their reproduction rates and so face extinction at lower harvesting rates than do small bodied organisms. This can represent hunting styles and technologies that prioritize large bodied prey, such as clovis points and atlatls.  The effect on the Damuth line is to lower the maximum body-mass of species facing the harvest pressure.\\
+
+% Negative scaling – A harvesting rate with negative scaling inverts the pattern of the other scaling approaches and behaves more like starvation and survivorship, having higher mortalities for small bodied consumers. This pattern could occur under hunting regimes that emphasize trapping. This can create situations where only large bodied consumers can survive in the ecosystem, all small-bodied consumers having gone extinct from the combined weight of harvest and intrinsic mortalities. \\
+
+
+% In the figure above we can see the negative scaling has excluded small bodied consumers from the system. Large bodied consumer equilibria persist in a narrow band of density between zero and the starvation-only scenario, leaving them vulnerable to stochastic events. 
+
+% \vspace{1.0cm}
+
+% Predicting values of harvest:
+
+% This section is not actually written yet but this is the raw material. We can see whether it'll be useful or not after the earlier sections are ironed out. 
+
+% (this stuff is from dimensionality of predation). 
+% Encounter rate with a human population sets the maximum harvest rate for unfocused (random encounter) harvest. At the levels of population density predicted for Pleistocene Africa, these random encounters would be insufficient to drive any species extinct even if all encounters were successful harvesting events. 
+% This conception of population density is an average over large swaths of land and does not account for the clumping of human population densities within hunting territories. \\
+
+% \vspace{0.5cm}
+
+% \includegraphics[width=0.9\textwidth]{pop_encounter_plot.png}\\
+
+% \vspace{0.5cm}
+
+% As human population density is increased, the rate of encounter overwhelms the reproduction of small bodied animals. The pattern of these interactions is in line with the expectation of a negative scaling on harvest rate. This suggestions \\
+
+% \vspace{0.5cm}
+
+% \includegraphics[width=0.9\textwidth]{encounter_plot.png}\\
+
+% \vspace{0.5cm}
+
+
+% \noindent \textbf{Resource Landscape:} 
+
+
+
+% \noindent \textbf{Resource Traits:}
+
+
+
+
+
+
+
+% \noindent \textbf{Herbivore Traits:}
+
+
+
+
+%Parameterization
+
+%Justification
+
+
+
+
+% \section{Discussion}
+
+
+\vskip1pc
+
+\ethics{Insert ethics text here.}
+
+\dataccess{Code available on GitHub (ADDRESS)}
+
+\aucontribute{TR and JDY conceived the study. TR, CK, and JDY designed the model and analyzed the results. TR, CK, and JDY wrote the manuscript.}
+
+\competing{The authors have no competing interests}
+
+\funding{This project was funded by NSF Award XXX to JDY.}
+
+\ack{We would like to thank Irina Birskis-Barros, Uttam Bhat, Megha Suswaram, and Ritwika VPS for insightful comments and discussions...}
+
+\disclaimer{Insert disclaimer text here.}
+
+\clearpage
+
+
+\begin{table}[h]
+    \caption{Model parameters and values/units}
+    \label{tab:param}
+        \begin{center}
+        \footnotesize
+         \begin{tabular}{lll}
+         \hline
+         Definition & Parameter & Value/Units   \\ %& References
+         \hline
+         Resource & & \\
+         ~~~~~density & $R$ & ${\rm g/m^2}$ \\
+         ~~~~~reproduction rate & $\alpha$ & ${\rm 1/s}$ \\
+         ~~~~~carrying capacity & $k$ & ${\rm g/m^2}$ \\
+         \hline
+         Consumer & & \\
+         ~~~~~density & $C$ & ${\rm g/m^2}$ \\
+         ~~~~~body mass & $M_C$ & g \\
+         ~~~~~body mass theshold & $M_C^\dagger$ & g \\
+         ~~~~~theoretical max & $C^{\rm max}$ & ${\rm g/m^2}$ \\
+         ~~~~~timescale of growth from $m_1$ to $m_2$ & $\tau(m_1,m_2)$ & s \\
+         ~~~~~reproduction rate & $\lambda_C^{\rm max}$ & ${\rm 1/s}$ \\
+         ~~~~~yield coefficient & $Y_C$ & ${\rm g~}C/{\rm  g~} R$ \\
+         ~~~~~maintenance rate & $\rho$ & ${\rm 1/s}$ \\
+         ~~~~~natural mortality rate & $\mu$ & ${\rm 1/s}$ \\
+         ~~~~~starvation rate & $\sigma$ & ${\rm 1/s}$ \\
+         ~~~~~harvest rate & $h$ & ${\rm 1/s}$ \\
+         \hline
+         Predator & & \\
+         ~~~~~steady state intercept & $P_0$ & $8.62\times10^{-4}~{\rm inds/m^2}$\cite{carbone2002common} \\
+         ~~~~~steady state density & $P^*$ &  $P_0 M_P^{-0.88}~{\rm inds/m^2}$\cite{carbone2002common} \\
+         ~~~~~body mass & $M_P$ & g \\
+         ~~~~~body mass theshold & $M_P^\dagger$ & g \\
+         ~~~~~theoretical max & $P^{\rm max}$ & ${\rm g/m^2}$ \\
+         ~~~~~growth rate & $\lambda_P^{\rm max}$ & ${\rm 1/s}$ \\
+         ~~~~~yield coefficient & $Y_P$ & ${\rm g~}P/{\rm  g~} C$ \\
+         ~~~~~specialization & $f$ & (0,1) \\
+         \hline
+         Prop. change starvation rate & $\chi_s$ & (-0.99,1) \\
+         PPMR intercept & $p_0$ & $1.18\times10^5$ g \\
+         PPMR slope & $p_1$ & $0.19$ \\
+         Prop. change PPMR intercept & $\chi_{\rm int}$ & (-0.99,2) \\
+         Prop. change PPMR slope & $\chi_{\rm slope}$ &  (-0.99,2) \\
+         Extinction-inducing harvest rate & $h^\dagger$ & ${\rm 1/s}$ \\
+         Extinction-inducing harvest pressure & $\psi^\dagger$ & inds/yr/$A_{\rm CA}$ \\
+         Post-harvest fraction consumer density & $\epsilon$ & 0.01 \\
+
+        
+
+
+    %    Asymptotic adult mass & $M$ & (g) &  \\
+    %    Initial mass of an organism & $m_{0}$ & (g) &  \\
+    %    Metabolic rate scaling exponent & $\eta$ & $3/4$  &  (e.g. \citep{West:2001bv,moses2008rmo,hou2008}) \\
+    %    Metabolic Normalization Constant & $B_{0}$ & $0.047$ (W g$^{-0.75}$)    & \citep{hou2008}  \\
+    %    Initial mass scaling exponent & $\upsilon$ & $0.92$ &  \citep{blueweiss1978relationships,peters1986ecological} \\
+    %    Initial mass scaling normalization constant & $n_{0}$ & $0.097$ (g$^{1-\upsilon}$) & \citep{blueweiss1978relationships,peters1986ecological}  \\   
+    %    Fat mass scaling exponent & $\gamma$ & $1.19$ & \citep{Lindstedt:1985hm} \\
+    %    Fat scaling normalization constant & $f_{0}$ & $0.02$ (g$^{1-\eta}$) & \citep{Lindstedt:1985hm}\\
+    %    Muscle mass scaling exponent & $\zeta$ & $1.00$  & \citep{Lindstedt:2002td} \\
+    %    Muscle scaling normalization constantv& $u_{0}$ & $0.38$ (g$^{1-\zeta}$)  & \citep{Lindstedt:2002td} \\
+    %    Energy to synthesis a unit of mass & $E_{m}$ & $5774$ (J gram$^{-1}$)  &  \citep{moses2008rmo,West:2001bv,hou2008} \\
+    %    Energy to synthesis a unit of mass during recovery & $E_{m}^{\prime}$ & $7000$ (J gram$^{-1}$) & \citep{stryer,hou} \\
+    %    Specific resource growth rate & $\alpha$ & $9.45\times10^{-9}$ (s$^{-1}$) & see text  \\
+    %    Fraction of asymptotic mass representing full state & $\epsilon_{\lambda}$ & $0.95$ & \citep{West:2001bv}  \\
+    %    Fraction of asymptotic mass representing starving state & $\epsilon_{\sigma}$ & $1-f_{0}M^{\gamma-1}$ & see text  \\
+    %    Fraction of asymptotic mass representing death & $\epsilon_{\mu}$ & $1-\frac{f_{0}M^{\gamma}+u_{0}M^{\zeta}}{M}$ & see text \\
+    %    Carrying capacity (maximum density) of resources & $C$ & (g m$^{-2}$) & \\
+    %    Half Saturation Constant & $k$ & (g m$^{-2}$) &   \\
+    %    Normalized carrying capacity & $\xi$ & $C/k\approx2$ &   \\
+    %    Reproductive fecundity & $\nu$ & $2$ & \citep{yeakel2018dynamics}  \\ 
+       
+       
+    %   $a$ & $1.78\times10^{-6}$  \quad \quad \\
+    %   $\lambda_{0}$ & $3.39\times10^{-7}$ (s$^{-1}$ gram$^{1-\eta}$) \quad \quad \\
+       
+    
+       \hline
+        \end{tabular}
+        \end{center}
+       \end{table}
+    
+    
+
+
+\clearpage
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.65\textwidth]{fig_consumer2d_resources.pdf}
+\caption{Model predictions of mammalian steady states ($\rm inds\cdot m^{-2}$) as a function of herbivore consumer body mass $M_C$ (thick blue line) compared to observational data from Damuth \cite{Damuth1987} (black points).
+Variation in steady state densities is capture by allowing the plant resource growth rate to vary as $\alpha = 2.81\times 10^{-10}: 2.19\times 10^{-8}~{\rm s}^{-1}$ (dark blue shaded region), and both $\alpha$ and the plant resource carrying capacity to vary as $k = 2.3:34~{\rm kg/m}{}^2$ (light blue shaded region).
+See Supplementary Appendix XX for details.
+% We assume an intrinsic growth rate roughly that of grass where $\alpha = 9.45\times 10^{-9}$ (s${}^{-1}$; REF), whereas observations among terrestrial plants reveal a range in growth rates from $2.81\times 10^{-10}$ to $2.19\times 10^{-8}$ \cite{michaletz2014convergence}, according with a change in $\alpha$ of roughly 97\% lower and 130\% higher than the set value. 
+% By incorporating this range into our the estimated resource growth rate, we observe that we can account for a large portion of consumer steady state densities around the mean density given by Eq. \ref{eq:2d} (inner shaded region, Fig. \ref{fig:2ddensities}).
+% If we additionally adjust the carrying capacity $k$ of the resource to 90\% less-than and 150\% more-than the assumed value of $23\times 10^3$ g/m${}^2$, our framework accounts for nearly the full range of mammalian steady state densities (outer shaded region, Fig. \ref{fig:2ddensities}).
+% In this context, the upper-boundary of $k$ observed to capture most higher herbivore densities is ca. 34 kg/m${}^2$, which is on the higher end of estimated live above-ground biomass densities in terrestrial forests such as in Isle Royal and the Allegheny National Forest \cite{de2017simulating}
+}
+\label{fig:2ddensities}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{joined_survivorship.pdf}
+    \caption{
+        A. The rate of natural mortality $\mu$ as a function of consumer body mass $M_C$ (green) relative to  the rate of reproduction $\lambda_C$ (orange) and maximal rate of starvation $\sigma$ (purple). The range of variation (light green shaded region) is given by allowing the cohort mortality rate $q_0$ to vary an order of magnitude around its calculated value.
+        B. Population-level effects of increasing the cohort mortality rate $q_0$ an order of magnitude. 
+        C. As in A. but with variation of the actuarial mortality rate $q_a$ by an order of magnitude around its estimated value.
+        D. Population-level effects of increasing the actuarial mortality rate $q_a$ an order of magnitude.
+        The black line denotes the best-fit for the observed mass density relationship \cite{Damuth1987}; the solid blue line denotes the model prediction; the stippled blue line denotes the model prediction with increased cohort (B) and actuarial (D) mortality rates.
+    }
+    \label{fig:naturalmort}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\textwidth]{fig_starverelative.pdf}
+    \caption{
+    The relative change in consumer steady state $\Delta C^*_s$ as a function of consumer body mass $M_C$ given the maximumal rate of starvation $\sigma(1 +\chi_s)$ where $\chi_s \in (-0.99,1)$ (see Eq. \ref{eq:starve}).
+    Declining $\Delta C^*_s$ with increasing body mass for lower values of $\chi_s$ mean that smaller organisms benefit more from reductions in the rate of starvation.
+    }
+    \label{fig:starve}
+\end{figure}
+
+
+\begin{figure*}
+  \centering
+  \includegraphics[width=1\textwidth]{fig_predation_alltogether.png}
+  \caption{
+	  A. Empirical mammalian herbivore (blue points) and predator (red points) mass-densities shown alongside the theoretical maximum herbivore $C^{\rm max}$ and predator $P^{\rm max}$ densities as a function of body size. 
+	  The solid blue curve denotes the predicted herbivore consumer steady state $C^*(M_C)$ with predation mortality.
+	  Predicted herbivore $M_C^\dagger$ and predator $M_P^\dagger$ size thresholds (blue and red vertical lines, respectively) reveal where the herbivore consumer population is no longer able to support a predator population. 
+	  The blue shaded region denotes `mega' size classes $>1\times10^5$ g.
+	  B. Percent mortality from predation for Serengeti herbivores (redrawn from Sinclair et al. \citep{Sinclair2003}) as a function of body mass $M_C$. Gray shaded region denotes a sigmoidal fit to the data with the inflection at $4.22\times10^5$ g. Vertical lines show herbivore size threshold under the assumption of predator specialization ($f=1.00$; $M_C^\dagger=2.58\times10^6$) and generalization ($f=0.37$; $M_C^\dagger=1.75\times10^7$).
+	  C. Threshold herbivore sizes $M_C^\dagger$ across changes to the predator-prey mass ratio (PPMR) intercept and slope (see Eq. \ref{eq:ppmr}).
+	  White shaded region denotes megatrophic threshold sizes, where both $(M_C^\dagger,M_P^\dagger) > 6\times10^5$ g. 
+	  D. As in C., but showing the corresponding threshold carnivore sizes $M_P^\dagger$.
+  }
+  \label{fig:predrate}
+\end{figure*}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{fig_harvest.pdf}
+    \caption{
+        A. Proportion mortality due to an extinction-inducing harvest rate $\xi^\dagger$ without predation ($f=0$; blue line), with the inclusion of mortality from a generalist predator ($f=0.37$; orange line), and with the inclusion of mortality from a specialist predator ($f=1$; red line), as a function of consumer body mass $M_C$.
+        B. Harvest pressure $\psi^\dagger$ resulting from extinction-inducing harvest (inds/year/$A_{\rm CA}$) without predation ($f=0$; blue line), with the inclusion of mortality from a generalist predator ($f=0.37$; orange line), and with the inclusion of mortality from a specialist predator ($f=1$; red line), as a function of consumer body mass $M_C$.
+        Black point and line: median and range of estimated harvest rates for wooly mammoths (\emph{Mammuthus primigenius}) \cite{fordham2022process}; Green point: estimated harvest pressure for the Australian \emph{Diprotodon} \cite{bradshaw2021relative}; Lower and upper yellow point: estimated harvest rates for contemporary \emph{Loxodonta} during the early 1800s and just prior to 1987, respectively \cite{milner1993exploitation}.
+    }
+    \label{fig:harvest}
+\end{figure}
+
+\clearpage
+
+
+%%%%%%%%%% Insert bibliography here %%%%%%%%%%%%%%
+\bibliographystyle{RS}
+\bibliography{aa_starving3}
+
+\end{document}

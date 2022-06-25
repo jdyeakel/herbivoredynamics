@@ -1,0 +1,29 @@
+﻿pred,prey,actual,pref
+Lycaon pictus,Gazella thompsoni,62.0,0.68
+Lycaon pictus,Aepyceros melampus,42.0,0.25
+Lycaon pictus,Tragelaphus strepsiceros,24.0,0.35
+Lycaon pictus,Tragelaphus angasi,12.0,0
+Lycaon pictus,Tragelaphus scriptus,0.0,0.36
+Acinonyx jubatus,Gazella thompsoni,53.0,0.5
+Acinonyx jubatus,Aepyceros melampus,32.0,0.11
+Acinonyx jubatus,Antidorcas marsupialis,30.0,0.14
+Acinonyx jubatus,Gazella granti,15.0,0.59
+Acinonyx jubatus,Damaliscus dorcas phillipsi,0.0,0.62
+Panthera pardus,Aepyceros melampus,48.0,0.36
+Panthera pardus,Gazella thompsoni,33.0,0
+Panthera pardus,Tragelaphus angasi,19.0,0
+Panthera pardus,Antidorcas marsupialis,17.0,0
+Panthera pardus,Sylvicapra grimmia,11.0,0.42
+Panthera pardus,Tragelaphus scriptus,0.0,0.42
+Panthera leo,Antidorcas marsupialis,29.0,0
+Panthera leo,Kobus kob,28.0,0
+Panthera leo,Connochaetes taurinus,26.0,0
+Panthera leo,Oryx gazelle,23.0,0.7
+Panthera leo,Syncerus caffer,20.0,0.32
+Panthera leo,Equus burchelli,0.0,0.16
+Panthera leo,Giraffa camelopardis,0.0,0.24
+Crocuta crocuta,Oryx gazelle,64.0,1
+Crocuta crocuta,Aepyceros melampus,28.0,1
+Crocuta crocuta,Gazella thompsoni,21.0,1
+Crocuta crocuta,Connochaetes taurinus,27.0,1
+Crocuta crocuta,Tragelaphus angasi,15.0,1
